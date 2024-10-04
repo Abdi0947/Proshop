@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import Footer from "./component/Footer";
 import Header from "./component/Header";
 import {Container} from 'react-bootstrap';
@@ -8,7 +9,7 @@ function App() {
       <Header/>
       <main className="py-3">
         <Container>
-         <Home/>
+         <Outlet/>
         </Container>
       </main>
       <Footer/>

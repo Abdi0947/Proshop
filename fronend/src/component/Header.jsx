@@ -1,4 +1,5 @@
 import React from 'react';
+import {LinkContainer} from 'react-bootstrap';
 import { Navbar, Container, Nav, NavLink } from 'react-bootstrap';
 import { FaShoppingCart,FaUser } from 'react-icons/fa';
 import Logo from '../assets/logo.png'
@@ -8,18 +9,27 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <Navbar.Brand href="/">
-          <img src={Logo} alt="proshop"/>
-          ProShop</Navbar.Brand>
+          <LinkContainer to='/'>
+            <Navbar.Brand>
+            <img src={Logo} alt="proshop"/>
+            ProShop</Navbar.Brand>
+          </LinkContainer>
+          
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <NavLink href="/cart">
-                <FaShoppingCart /> Cart
-              </NavLink>
-              <NavLink href="/login">
-                <FaUser/> Login
-              </NavLink>
+              <LinkContainer to="/cart">
+                <NavLink>
+                  <FaShoppingCart /> Cart
+                </NavLink>
+              </LinkContainer>
+              
+              <LinkContainer to="/login">
+                <NavLink>
+                  <FaUser/> Login
+                </NavLink>
+              </LinkContainer>
+              
             </Nav>
           </Navbar.Collapse>
         </Container>
