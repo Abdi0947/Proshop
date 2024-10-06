@@ -4,13 +4,15 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
-import HomeScreen from './HomeScreen/Home';
+import HomeScreen from './Screens/Home';
+import ProductScreen from './Screens/ProductScreen';
 import App from './App';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="/" element={<HomeScreen />} />
+      <Route index={true} path="/" element={<HomeScreen />} />
+      <Route  path="/product/:id" element={<ProductScreen />} />
     </Route>
   )
 );
