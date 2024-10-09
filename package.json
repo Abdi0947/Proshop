@@ -1,0 +1,25 @@
+{
+  "name": "proshop-v2",
+  "version": "2.0.0",
+  "description": "backend with MERN Stack",
+  "type": "module",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix fronend",
+    "dev": "concurrently \"npm run server \" \"npm run client \" "
+  },
+  "author": "abdi-debela",
+  "license": "MIT",
+  "dependencies": {
+    "-": "^0.0.1",
+    "axios": "^1.7.7",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.7"
+  }
+}
