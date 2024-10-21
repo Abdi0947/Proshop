@@ -1,50 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { Col, Row, Image, Card, ListGroup, Button } from 'react-bootstrap';
+import { Col, Row, Image, Card, ListGroup, Button, Spinner } from 'react-bootstrap';
 import Rating from '../component/Rating';
 
 const ProductScreen = () => {
-  const [product, setProduct] = useState(null);  // Initialize product as null
-  const { id: productId } = useParams();  // Get productId from URL params
-  const [loading, setLoading] = useState(true);  // Loading state
-  const [error, setError] = useState(null);  // Error state
+  const [product, setProduct] = useState(null); // State to store product data
+  const { id: productId } = useParams(); // Get the product ID from URL
+  const [loading, setLoading] = useState(true); // State for loading status
+  const [error, setError] = useState(null); // State for error handling
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        // Use POST request with body instead of GET, just in case query params were long
-        const { data } = await axios.post('/api/products', { id: productId }, {
-          withCredentials: false,  // Prevent sending unnecessary cookies
-        });
-
-        setProduct(data);  // Set fetched product
-        setLoading(false);  // Stop loading
+        setLoading(true); // Set loading to true before making API request
+        const { data } = await axios.get(`http://localhost:8000/api/products/${productId}`);
+        setProduct(data); // Store the fetched product data in state
+        setLoading(false); // Turn off loading once data is fetched
       } catch (err) {
-        setError(err.message || "Something went wrong!");  // Handle error
-        setLoading(false);  // Stop loading on error
+        setError(err.message); // Set error message in case of failure
+        setLoading(false); // Turn off loading when there is an error
       }
     };
 
-    fetchProduct();  // Call the function to fetch product
-  }, [productId]);  // Dependency array with productId
+    fetchProduct(); // Fetch product when the component mounts
+  }, [productId]); // Re-run effect if productId changes
 
-  // If loading, show loading message
-  if (loading) return <p>Loading...</p>;
+  // Render loading spinner if data is being fetched
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
 
-  // If there's an error, display the error message
-  if (error) return <p>{error}</p>;
+  // Render error message if there was an error fetching the product
+  if (error) {
+    return <p>Error: {error}</p>; // Display the error message
+  }
 
+  // Main return block to display product information
   return (
     <>
-      <Link className='btn btn-light my-3' to='/'>Go Back</Link>
-      {product && (  // Check if product exists before rendering
+      <Link className="btn btn-light my-3" to="/">Go Back</Link>
+      {product && (  
         <Row>
           <Col md={5}>
-            <Image src={product.image} alt={product.name} fluid />
+            <Image 
+              src={product.image} 
+              alt={product.name} 
+              fluid 
+              onError={(e) => { e.target.src = '/path/to/default/image.jpg'; }} // Fallback image if the main one fails
+            />
           </Col>
           <Col md={4}>
-            <ListGroup variant='flush'>
+            <ListGroup variant="flush">
               <ListGroup.Item>
                 <h3>{product.name}</h3>
               </ListGroup.Item>
@@ -57,7 +70,7 @@ const ProductScreen = () => {
           </Col>
           <Col md={3}>
             <Card>
-              <ListGroup variant='flush'>
+              <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
                     <Col>Price:</Col>
@@ -74,9 +87,10 @@ const ProductScreen = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Button
-                    className='btn-block'
-                    type='button'
+                    className="btn-block"
+                    type="button"
                     disabled={product.countInStock === 0}
+                    // Add functionality to handle adding to cart
                   >
                     Add to Cart
                   </Button>
