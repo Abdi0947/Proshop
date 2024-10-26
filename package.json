@@ -8,13 +8,18 @@
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix fronend",
-    "dev": "concurrently \"npm run server \" \"npm run client \" "
+    "dev": "concurrently \"npm run server \" \"npm run client \" ",
+    "data:import": "node backend/seeder.js",
+    "data:destroy": "node backend/seeder.js -d"
   },
   "author": "abdi-debela",
   "license": "MIT",
   "dependencies": {
     "-": "^0.0.1",
     "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
+    "color": "^4.2.3",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "mongodb": "^6.10.0",
