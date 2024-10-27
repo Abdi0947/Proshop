@@ -12,7 +12,7 @@ dotenv.config();
 connectDB();
 
 // Set the port (with a fallback value for development)
-const port = process.env.PORT || 5000;
+const port = process.env.PORT ;
 const app = express();
 
 // Middleware to parse JSON bodies
